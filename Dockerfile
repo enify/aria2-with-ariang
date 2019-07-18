@@ -8,7 +8,8 @@ RUN apk update && \
     apk add darkhttpd && \
     apk add wget && \
         mkdir /webgui && \
-        wget -qO webgui.zip https://github.com/mayswind/AriaNg/releases/download/1.1.1/AriaNg-1.1.1.zip && \
+        DOWNLOAD_URL=$(wget -q -O - "https://api.github.com/repos/mayswind/AriaNg/releases/latest" | awk '/browser_download_url/{print $4;exit}' FS='[""]') && \
+        wget -qO webgui.zip $DOWNLOAD_URL && \
         unzip webgui.zip -d /webgui && \
         rm webgui.zip && \
         apk del wget && \
